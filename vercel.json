@@ -1,16 +1,32 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "eLMS-SWE/manage.py",
-        "use": "@vercel/python",
-        "config": { "maxLambdaSize": "50mb" , "runtime":"python3.9"}
-      }
-    ],
-    "routes": [
-     
-      {
-        "src": "/eLMS-SWE(.*)",
-        "dest": "eLMS-SWE/wsgi.py"
-      }
-    ]}
+  "version": 2,
+  "builds": [{
+    "src": "eLMS/wsgi.py",
+    "use": "@vercel/python",
+    "config": { "maxLambdaSize": "50mb" }
+  }],
+  "routes": [{
+      "src": "/static/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000, immutable" },
+      "dest": "/eLMS/static/$1"
+    },
+    {
+      "src": "/media/(.*)",
+      "headers": { "cache-control": "s-maxage=31536000, immutable" },
+      "dest": "/eLMS/media/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/eLMS/wsgi.py"
+    }
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "eLMS.settings",
+    "DATABASE_URL": "@database_url"
+  },
+  "build": {
+    "env": {
+      "PROJECT_NAME": "eLMS"
+    }
+  }
+}
