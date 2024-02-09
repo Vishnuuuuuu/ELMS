@@ -1,5 +1,5 @@
 # Activate the virtual environment
-source /path/to/your/venv/bin/activate
+source /usr/src/venv/bin/activate
 
 # Install dependencies
 pip install -r requirements.txt
